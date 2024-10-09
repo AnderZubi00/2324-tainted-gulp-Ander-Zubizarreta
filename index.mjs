@@ -3,40 +3,50 @@ import { RustedRing } from "./service.mjs";
 import { getData } from "./service.mjs";
 import Ingredients from "./ingredients.mjs";
 import Cauldron from "./cauldron.mjs";
+import PotionBag from "./PotionBag.mjs";
+import Character from "./Character.mjs";
 
 
 const execute = async () => {
-    try
-    {
+    try {
         const SilverFlamee = await SilverFlame();
         const RustedRingg = await RustedRing();
+
+        const pouch_red = RustedRingg.players[0].pouch_red;
+        const pouch_green = RustedRingg.players[0].pouch_green;
+        const pouch_yellow = RustedRingg.players[0].pouch_yellow;
+        const pouch_aged = RustedRingg.players[0].pouch_aged;
+
+        
 
         const data = await getData();
 
         //Creamos los ingredientes
         const ingredients = Ingredients.load(data);
 
-        //showIngredients(ingredients);
-
+        //showIngredients(ingredients.ingredients);
 
         //Creamos el calderon de pociones
         const cauldron = new Cauldron(ingredients);
 
-        const potion1 = cauldron.createPotion("Bear Claws", "Bee");
-        showPotion(potion1);
+        // Creamos una instancia de PotionBag
+        const potionBag = new PotionBag();
 
-        const potion2 = cauldron.createPotion("Chicken's Egg", "Chaurus Eggs");
-        showPotion(potion2);
+        // Usamos los ingredientes para crear pociones
+        const createdPotionBag = potionBag.create(pouch_red, cauldron);
+        
+        // Mostramos las pociones creadas
+        //createdPotionBag.potions.forEach(showPotions);
 
-        const potion3 = cauldron.createPotion("Chaurus Eggs", "Bleeding Crown");
-        showPotion(potion3);
+        const character = new Character(); 
+        const Joseph = character.from(RustedRingg.players, createdPotionBag.potions);
 
-        const potion4 = cauldron.createPotion("Nightshade", "Ectoplasm");
-        showPotion(potion4);
+        console.log(Joseph);
+        
+        showCharacter(Joseph);
 
     }
-    catch
-    {
+    catch {
         //ERROR
     }
 }
@@ -53,15 +63,19 @@ function showIngredients(ingredients) {
             });
             console.log("-------------------------------");
         });
-    } 
+    }
 }
 
-function showPotion(potion){
-    console.log(`${potion.name}`);
-    console.log(`Value:          ${potion.value}`);
-    console.log(`Weight:         ${potion.weight}`);
-    console.log(`Time:           ${potion.time}`);
-    console.log(`-------------------------------`); 
+function showPotions(potion) {
+    console.log(`Potion: ${potion.name}`);
+    console.log(`Value: ${potion.value}`);
+    console.log(`Weight: ${potion.weight}`);
+    console.log(`Time: ${potion.time}`);
+    console.log("-------------------------------");
+}
+
+function showCharacter(character){
+
 }
 
 execute();

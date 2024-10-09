@@ -1,6 +1,5 @@
 import { SilverFlame } from "./service.mjs";
 import { RustedRing } from "./service.mjs";
-import { getData } from "./service.mjs";
 import Ingredients from "./ingredients.mjs";
 import Cauldron from "./cauldron.mjs";
 import PotionBag from "./PotionBag.mjs";
@@ -17,14 +16,9 @@ const execute = async () => {
         const pouch_yellow = RustedRingg.players[0].pouch_yellow;
         const pouch_aged = RustedRingg.players[0].pouch_aged;
 
-        
-
-        const data = await getData();
 
         //Creamos los ingredientes
-        const ingredients = Ingredients.load(data);
-
-        //showIngredients(ingredients.ingredients);
+        const ingredients = Ingredients.load(SilverFlamee);
 
         //Creamos el calderon de pociones
         const cauldron = new Cauldron(ingredients);
@@ -34,16 +28,24 @@ const execute = async () => {
 
         // Usamos los ingredientes para crear pociones
         const createdPotionBag = potionBag.create(pouch_red, cauldron);
-        
-        // Mostramos las pociones creadas
-        //createdPotionBag.potions.forEach(showPotions);
 
         const character = new Character(); 
         const Joseph = character.from(RustedRingg.players, createdPotionBag.potions);
 
-        console.log(Joseph);
+        ///SHOW INGREDIENTS///
+        //showIngredients(ingredients.ingredients);
+
+        ///SHOW CREATED POTIONS///
+        //createdPotionBag.potions.forEach(showPotions);
         
-        showCharacter(Joseph);
+        ///SHOW CHARACTER///
+        //showCharacter(Joseph);
+
+        ///SHOW JOSEPH DRINK///
+       //Joseph.drinkEmAll();
+
+        
+
 
     }
     catch {
@@ -75,7 +77,16 @@ function showPotions(potion) {
 }
 
 function showCharacter(character){
+    console.log(`${character.fullName}`);
+    console.log("---------------------"); 
+    console.log(`Health: ${character.health}`);
+    console.log(`Magick: ${character.magick}`);
+    console.log(`Stamina: ${character.stamina}`);
 
+    for (let i = 0; i < character.potions.length; i++) {
+        const potion = character.potions[i];
+        console.log("Potion " + (i+1) + ": "  + potion.name);      
+    }
 }
 
 execute();

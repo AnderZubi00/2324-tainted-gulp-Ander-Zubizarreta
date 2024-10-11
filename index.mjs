@@ -27,7 +27,7 @@ const execute = async () => {
         const potionBag = new PotionBag();
 
         // Usamos los ingredientes para crear pociones
-        const createdPotionBag = potionBag.create(pouch_red, cauldron);
+        const createdPotionBag = potionBag.create(pouch_aged, cauldron);
 
         const character = new Character(); 
         const Joseph = character.from(RustedRingg.players, createdPotionBag.potions);
@@ -42,7 +42,7 @@ const execute = async () => {
         //showCharacter(Joseph);
 
         ///SHOW JOSEPH DRINK///
-       //Joseph.drinkEmAll();
+       Joseph.drinkEmAll();
 
         
 

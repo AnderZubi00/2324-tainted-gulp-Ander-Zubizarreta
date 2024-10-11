@@ -20,67 +20,99 @@ class Character {
             
         }
 
-    drinkEmAll(){
-        for (let i = 0; i < this.potions.length; i++) {
-            const potion = this.potions[i];
-
-            console.log(`-------------------------------`);
-            console.log(`Health: ${this.health}`);
-            console.log(`Magick: ${this.magick}`);
-            console.log(`Stamina: ${this.stamina}`);
-            console.log(`-------------------------------`);
-            console.log(`${this.fullName} drinks ${potion.name}`);
-
-            if (potion.name.includes("Health")) {
-                this.health += potion.value;
-            } else if (potion.name.includes("Magick")) {
-                this.magick += potion.value;
-            } else if (potion.name.includes("Stamina")) {
-                this.stamina += potion.value;
-            } else if (potion.name.includes("Poison")) {
-                
+        drinkEmAll(){
+            for (let i = 0; i < this.potions.length; i++) {
+                const potion = this.potions[i];
+        
+                console.log(`-------------------------------`);
+                console.log(`Health: ${this.health}`);
+                console.log(`Magick: ${this.magick}`);
+                console.log(`Stamina: ${this.stamina}`);
+                console.log(`-------------------------------`);
+                console.log(`${this.fullName} the Former archmage drinks ${potion.name}`);
+        
+                let healthChange = 0;
+                let magickChange = 0;
+                let staminaChange = 0;
+        
                 if (potion.name.includes("Health")) {
-                    this.health -= potion.value;
+                    healthChange = potion.value;
+                    this.health += healthChange;
                 } else if (potion.name.includes("Magick")) {
-                    this.magick -= potion.value;
+                    magickChange = potion.value;
+                    this.magick += magickChange;
                 } else if (potion.name.includes("Stamina")) {
-                    this.stamina -= potion.value;
+                    staminaChange = potion.value;
+                    this.stamina += staminaChange;
+                } else if (potion.name.includes("Poison")) {
+                    if (potion.name.includes("Health")) {
+                        healthChange = -potion.value;
+                        this.health += healthChange;
+                    } else if (potion.name.includes("Magick")) {
+                        magickChange = -potion.value;
+                        this.magick += magickChange;
+                    } else if (potion.name.includes("Stamina")) {
+                        staminaChange = -potion.value;
+                        this.stamina += staminaChange;
+                    } else {
+                        healthChange = -1;
+                        magickChange = -1;
+                        staminaChange = -1;
+                        this.health += healthChange;
+                        this.magick += magickChange;
+                        this.stamina += staminaChange;
+                    }
+                } else if (potion.name.includes("Sanity")) {
+                    healthChange = potion.value;
+                    magickChange = potion.value;
+                    staminaChange = potion.value;
+                    this.health += healthChange;
+                    this.magick += magickChange;
+                    this.stamina += staminaChange;
+                } else if (potion.name.includes("Failed")) {
+                    console.log(`Failed Potion. ${this.fullName} the Former archmage cannot drink.`);
                 } else {
-                    this.health -= 1;
-                    this.magick -= 1;
-                    this.stamina -= 1;
+                    healthChange = 1;
+                    magickChange = 1;
+                    staminaChange = 1;
+                    this.health += healthChange;
+                    this.magick += magickChange;
+                    this.stamina += staminaChange;
                 }
-            } else if (potion.name.includes("Sanity")) {
-                this.health += potion.value;
-                this.magick += potion.value;
-                this.stamina += potion.value;
-            } else if (potion.name.includes("Failed")) {
-                console.log("Failed potion! No effect.");
-            } else {
-                this.health += 1;
-                this.magick += 1;
-                this.stamina += 1;
+        
+                if (healthChange !== 0) {
+                    const healthMessage = healthChange > 0 ? `gains ${healthChange} points of health` : `loses ${Math.abs(healthChange)} points of health`;
+                    console.log(`${this.fullName} the Former archmage ${healthMessage}`);
+                }
+                if (magickChange !== 0) {
+                    const magickMessage = magickChange > 0 ? `gains ${magickChange} points of magick` : `loses ${Math.abs(magickChange)} points of magick`;
+                    console.log(`${this.fullName} the Former archmage ${magickMessage}`);
+                }
+                if (staminaChange !== 0) {
+                    const staminaMessage = staminaChange > 0 ? `gains ${staminaChange} points of stamina` : `loses ${Math.abs(staminaChange)} points of stamina`;
+                    console.log(`${this.fullName} the Former archmage ${staminaMessage}`);
+                }
+        
+                if (this.health <= 0) {
+                    console.log(`${this.fullName} the Former archmage has died due to lack of health.`);
+                    break;
+                }
+                if (this.magick <= 0) {
+                    console.log(`${this.fullName} the Former archmage has died due to lack of magick.`);
+                    break;
+                }
+                if (this.stamina <= 0) {
+                    console.log(`${this.fullName} the Former archmage has lost all his stamina. He feels completely exhausted.`);
+                    break;
+                }
+                if (potion.name.includes("Sanity")) {
+                    console.log(`${this.fullName} the Former archmage has found the Potion of Sanity. His mind is healed. Well done!!`);
+                    break;
+                }
             }
-
-              if (this.health <= 0) {
-                console.log(`${this.fullName} has died due to lack of health.`);
-                break;
-            }
-            if (this.magick <= 0) {
-                console.log(`${this.fullName} has died due to lack of magick.`);
-                break;
-            }
-            if (this.stamina <= 0) {
-                console.log(`${this.fullName} is exhausted and cannot move.`);
-                break;
-            }
-            if (potion.name.includes("Sanity")) {
-                console.log(`Joseph drank the Potion of Sanity. Game completed!`);
-                break;
-            }
+            console.log("All potions have been consumed. Game over.");
         }
-        console.log("All potions have been consumed. Game over.");
-    }
+        
 
         
 }

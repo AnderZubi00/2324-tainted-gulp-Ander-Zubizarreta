@@ -16,9 +16,13 @@ const execute = async () => {
         const pouch_yellow = RustedRingg.players[0].pouch_yellow;
         const pouch_aged = RustedRingg.players[0].pouch_aged;
 
+        
+
 
         //Creamos los ingredientes
         const ingredients = Ingredients.load(SilverFlamee);
+
+        console.log(RustedRingg);
 
         //Creamos el calderon de pociones
         const cauldron = new Cauldron(ingredients);
